@@ -1,6 +1,7 @@
 # [dashkeys-cli.js](https://github.com/dashhive/dashkeys-cli.js)
 
-CLI Tools for converting and validating DASH Keys and Payment Addresses
+CLI **Reference Tools** for converting and validating DASH Private Keys and
+Payment Addresses
 
 ## Features
 
@@ -10,9 +11,12 @@ CLI Tools for converting and validating DASH Keys and Payment Addresses
 - [x] WIF to Addr
 - [x] Addr (Base58Check) to PubKeyHash (PKH)
 - [x] Output as text or JSON
+- [x] API
 
 See [Dash HD][dash-hd-cli] for Extended Private Key (`xprv`) and Extended Public
 Key (`xpub`) features.
+
+[dashkeys-js]: https://github.com/dashhive/dashkeys.js
 
 ## Install
 
@@ -192,6 +196,10 @@ The leading `X` for each is because they are base58check-encoded.
 
 [dash-wallet-cli]: https://github.com/dashhive/dashwallet-cli.js
 [dash-hd-cli]: https://github.com/dashhive/dashhd-cli.js
+
+## API
+
+See [DashKeys.js][dashkeys-js].
 
 ## Fixtures
 
