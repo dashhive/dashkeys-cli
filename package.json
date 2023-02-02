@@ -1,0 +1,45 @@
+{
+  "name": "dashkeys-cli",
+  "version": "0.7.0",
+  "description": "Dash Keys CLI - generate, validate, and convert WIFs and PayAddress (Private Keys and Public Key Hashes)",
+  "main": "bin/dashkeys.js",
+  "bin": {
+    "dashkeys": "bin/dashkeys.js"
+  },
+  "files": [],
+  "scripts": {
+    "bump": "npm version -m \"chore(release): bump to v%s\"",
+    "fmt": "npx -p prettier@2.x -- prettier -w '**/*.{html,js,md}'",
+    "lint": "npx -p typescript@4.x -- tsc -p ./jsconfig.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dashhive/dashkeys-cli.js.git"
+  },
+  "keywords": [
+    "dash",
+    "digital",
+    "cash",
+    "dashcore",
+    "private",
+    "public",
+    "key",
+    "hash",
+    "wallet",
+    "address",
+    "wif",
+    "pkh",
+    "p2pkh",
+    "base58check"
+  ],
+  "author": "AJ ONeal <aj@therootcompany.com> (https://throotcompany.com/)",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/dashhive/dashkeys-cli.js/issues"
+  },
+  "homepage": "https://github.com/dashhive/dashkeys-cli.js#readme",
+  "dependencies": {
+    "dashkeys": "^0.7.0"
+  }
+}
