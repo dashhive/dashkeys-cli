@@ -1,4 +1,4 @@
-# [dashkeys-cli.js](https://github.com/dashhive/dashkeys-cli.js)
+# [dashkeys-cli](https://github.com/dashhive/dashkeys-cli)
 
 CLI **Reference Tools** for converting and validating DASH Private Keys and
 Payment Addresses
@@ -194,8 +194,8 @@ the contents are the WIF (private key).
 
 The leading `X` for each is because they are base58check-encoded.
 
-[dash-wallet-cli]: https://github.com/dashhive/dashwallet-cli.js
-[dash-hd-cli]: https://github.com/dashhive/dashhd-cli.js
+[dash-wallet-cli]: https://github.com/dashhive/dashwallet-cli
+[dash-hd-cli]: https://github.com/dashhive/dashhd-cli
 
 ## API
 
