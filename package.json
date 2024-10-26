@@ -1,6 +1,6 @@
 {
   "name": "dashkeys-cli",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Dash Keys CLI - generate, validate, and convert WIFs and PayAddress (Private Keys and Public Key Hashes)",
   "main": "bin/dashkeys.js",
   "bin": {
