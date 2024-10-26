@@ -35,6 +35,7 @@ let b58c = Base58Check.create();
 let jsonOut = "";
 let unsafe = "";
 let unmask = "";
+let network = "mainnet";
 
 async function main() {
   /* jshint maxcomplexity:1000 */
@@ -50,6 +51,10 @@ async function main() {
   jsonOut = removeFlag(args, ["--json"]) ?? "";
   unsafe = removeFlag(args, ["--unsafe"]) ?? "";
   unmask = removeFlag(args, ["--unmask"]) ?? "";
+  let isTestnet = removeFlag(args, ["--testnet"]);
+  if (isTestnet) {
+    network = "testnet";
+  }
 
   let gen = removeFlag(args, ["generate"]);
   if (gen) {
@@ -137,6 +142,9 @@ function usage() {
   console.info(`GLOBAL FLAGS`);
   console.info();
   console.info(`    --json             machine-friendly json to stdout`);
+  console.info(
+    `    --testnet          expect coin types 0xef (key) and 0x8c (address)`,
+  );
   console.info(`    --unmask           don't mask private keys`);
   console.info(
     `    --unsafe           accept as string (exposed to shell history)`,
@@ -146,8 +154,8 @@ function usage() {
 
 /** @type {Subcommand} */
 async function generateWif(args) {
-  let wif = await DashKeys.utils.generateWifNonHd();
-  let addr = await DashKeys.wifToAddr(wif);
+  let wif = await DashKeys.utils.generateWifNonHd({ version: network });
+  let addr = await DashKeys.wifToAddr(wif, { version: network });
 
   if (jsonOut) {
     let result = {
@@ -185,16 +193,23 @@ async function getPaymentAddress(args) {
     );
   }
 
-  let b58cInfo = await DashKeys.decode(addrOrWif, { validate: false });
+  let b58cInfo = await DashKeys.decode(addrOrWif, {
+    validate: false,
+    version: network,
+  });
 
   let _publicKey;
   let _pubKeyHash;
   let address;
   if (b58cInfo.privateKey) {
     let privBytes = toBytes(b58cInfo.privateKey);
-    let pubBytes = await DashKeys.utils.toPublicKey(privBytes);
+    let pubBytes = await DashKeys.utils.toPublicKey(privBytes, {
+      version: network,
+    });
     _publicKey = toHex(pubBytes);
-    address = await DashKeys.pubKeyToAddr(pubBytes);
+    address = await DashKeys.pubkeyToAddr(pubBytes, {
+      version: network,
+    });
   } else {
     address = addrOrWif;
   }
@@ -224,7 +239,9 @@ async function decode(args) {
 
   let { addrOrWif, isString } = await readAddrOrPath(addrOrPath);
 
-  let decoded = await DashKeys.decode(addrOrWif);
+  let decoded = await DashKeys.decode(addrOrWif, {
+    version: network,
+  });
   if (decoded.privateKey) {
     let debug = {};
 
@@ -234,7 +251,7 @@ async function decode(args) {
     let pubBuf = await DashKeys.utils.toPublicKey(decoded.privateKey);
     //@ts-ignore
     decoded.publicKey = toHex(pubBuf);
-    let shaRipeBytes = await DashKeys.pubKeyToPkh(pubBuf);
+    let shaRipeBytes = await DashKeys.pubkeyToPkh(pubBuf);
     decoded.pubKeyHash = toHex(shaRipeBytes);
 
     let pubKeySha256U8 = await DashKeys.utils.sha256sum(pubBuf);
@@ -248,6 +265,7 @@ async function decode(args) {
 
     debug._address = await b58c.encode({
       pubKeyHash: debug._pubKeyHash,
+      version: network,
     });
 
     //
@@ -268,11 +286,13 @@ async function decode(args) {
 
     debug._xyAddress = await b58c.encode({
       pubKeyHash: debug._xyPubKeyHash,
+      version: network,
     });
 
     debug._xyWif = await b58c.encode({
       privateKey: decoded.privateKey,
       compressed: false,
+      version: network,
     });
 
     if (!unmask) {
@@ -280,7 +300,9 @@ async function decode(args) {
       debug._xyWif = maskPrivateKey(debug._xyWif);
     }
 
-    let address = await DashKeys.wifToAddr(addrOrWif);
+    let address = await DashKeys.wifToAddr(addrOrWif, {
+      version: network,
+    });
     decoded = Object.assign({ address }, decoded, debug);
   }
 
@@ -340,7 +362,9 @@ async function verify(args) {
 
   let { addrOrWif, isString } = await readAddrOrPath(addrOrPath);
 
-  let decoded = await DashKeys.decode(addrOrWif);
+  let decoded = await DashKeys.decode(addrOrWif, {
+    version: network,
+  });
   let status = "invalid";
   if (decoded.valid) {
     status = "valid";
